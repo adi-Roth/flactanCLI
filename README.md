@@ -1,5 +1,3 @@
-# 🚀 FlactanCLI - The Ultimate Workspace Automation Tool
-
 <p align="left">
   <img src="https://adi-roth.github.io/flactanCLI/assets/flactancli_icon_128x128.png" alt="FlactanCLI Logo" width="128" height="128" style="float: left; margin-right: 15px;">
 </p>
