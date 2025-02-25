@@ -1,8 +1,6 @@
-<p align="left">
-  <img src="https://adi-roth.github.io/flactanCLI/assets/flactancli_icon_128x128.png" alt="FlactanCLI Logo" width="128" height="128" style="float: left; margin-right: 15px;">
+<p align="center">
+  <img src="https://adi-roth.github.io/flactanCLI/assets/FalctanCLI.png" alt="FlactanCLI Logo">
 </p>
-
-# 🚀 FlactanCLI - The Ultimate Workspace Automation Tool
 
 FlactanCLI is a **next-generation command-line tool** designed to **automate, configure, and optimize** workspaces effortlessly. Inspired by the **agility of a falcon** and the **strength of a titan**, this tool is built to take your setup to the next level—whether you're a **developer, DevOps engineer, or IT administrator**.
 
