@@ -42,4 +42,3 @@ MIT License - Use it, modify it, and make it better!
 
 ---
 💡 **FlactanCLI – Automate. Optimize. Dominate.**
-
