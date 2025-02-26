@@ -54,7 +54,6 @@ jobs:
           BRANCH_NAME="${{ github.head_ref }}"
           VERSION=$(git tag --sort=-v:refname | head -n 1 | sed 's/v//')
 
-          # If no tags exist, set the initial version
           if [[ -z "$VERSION" ]]; then
             VERSION="0.1.0"
           fi
@@ -75,3 +74,5 @@ jobs:
 
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
