@@ -51,7 +51,7 @@ jobs:
 
       - name: Determine version type and create tag
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
           VERSION=$(git tag --sort=-v:refname | head -n 1 | sed 's/v//')
