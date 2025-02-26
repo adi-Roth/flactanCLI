@@ -50,6 +50,8 @@ jobs:
           git config --global user.email "github-actions@github.com"
 
       - name: Determine version type and create tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
           VERSION=$(git tag --sort=-v:refname | head -n 1 | sed 's/v//')
@@ -73,6 +75,4 @@ jobs:
           echo "New version: $NEW_VERSION"
 
           git tag $NEW_VERSION
-          git push origin $NEW_VERSION
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git $NEW_VERSION
