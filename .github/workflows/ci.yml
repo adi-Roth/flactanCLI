@@ -54,13 +54,16 @@ jobs:
           BRANCH_NAME="${{ github.head_ref }}"
           VERSION=$(git tag --sort=-v:refname | head -n 1 | sed 's/v//')
 
+          # If no tags exist, set the initial version
+          if [[ -z "$VERSION" ]]; then
+            VERSION="0.1.0"
+          fi
+
           MAJOR=$(echo "$VERSION" | cut -d. -f1)
           MINOR=$(echo "$VERSION" | cut -d. -f2)
           PATCH=$(echo "$VERSION" | cut -d. -f3)
 
-          if [[ "$VERSION" == "" ]]; then
-            VERSION="0.1.0"
-          elif [[ "$BRANCH_NAME" =~ ^feature/ ]]; then
+          if [[ "$BRANCH_NAME" =~ ^feature/ ]]; then
             MINOR=$((MINOR + 1))
             PATCH=0
           elif [[ "$BRANCH_NAME" =~ ^fix/ ]]; then
