@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// CfgFile stores the path to the configuration file, set via the `--config` flag.
 var CfgFile string
 
 // RootCmd represents the base command when called without any subcommands
@@ -25,7 +26,7 @@ to quickly create a Cobra application.`,
 	},
 }
 
-
+// Execute runs the root command, initializing all CLI subcommands.
 func Execute() {
 	err := RootCmd.Execute()
 	if err != nil {
