@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: main  # Ensures it runs on the `main` branch
+          ref: main  # Ensures it runs on `main`
 
       - name: Fetch latest tag
         id: get_tag
@@ -25,6 +25,10 @@ jobs:
 
       - name: Verify Tag
         run: echo "Latest tag is ${{ env.TAG }}"
+
+      - name: Extract PR Description
+        id: get_pr_body
+        run: echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
 
       - name: Build and Upload Artifacts
         run: |
@@ -42,7 +46,7 @@ jobs:
         with:
           tag_name: ${{ env.TAG }}
           name: "Release ${{ env.TAG }}"
-          body: "🚀 New Release: ${{ env.TAG }}\n\nChanges:\n- Auto-generated release from GitHub Actions\n${{ env.PR_BODY }}"
+          body: "🚀 New Release: ${{ env.TAG }}\n\nChanges:\n${{ env.PR_BODY }}"
           files: bin/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
