@@ -42,7 +42,7 @@ jobs:
         with:
           tag_name: ${{ env.TAG }}
           name: "Release ${{ env.TAG }}"
-          body: "🚀 New Release: ${{ env.TAG }}\n\nChanges:\n- Auto-generated release from GitHub Actions"
+          body: "🚀 New Release: ${{ env.TAG }}\n\nChanges:\n- Auto-generated release from GitHub Actions\n${{ env.PR_BODY }}"
           files: bin/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
