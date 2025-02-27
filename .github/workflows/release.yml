@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: main  # Ensures it runs on the `main` branch
 
       - name: Fetch latest tag
         id: get_tag
