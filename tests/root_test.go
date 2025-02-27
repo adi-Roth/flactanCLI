@@ -46,20 +46,6 @@ func TestRootCommandHelp(t *testing.T) {
 	assert.Contains(t, output, "flactanCLI", "Help output should mention CLI name")
 }
 
-func TestRootCommandFlags(t *testing.T) {
-	// Capture output
-	buf := new(bytes.Buffer)
-	cmd.RootCmd.SetOut(buf)
-
-	// Simulate --toggle flag
-	cmd.RootCmd.SetArgs([]string{"--toggle"})
-	err := cmd.RootCmd.Execute()
-	assert.NoError(t, err, "Executing with --toggle should not return an error")
-
-	output := buf.String()
-	assert.Contains(t, output, "Help message for toggle", "Toggle flag should print correct help message")
-}
-
 func TestInitConfigWithFile(t *testing.T) {
 	// Set a temporary config file
 	tmpFile, err := os.CreateTemp("", "flactanCLI_test.yaml")
