@@ -56,11 +56,14 @@ jobs:
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
+          git fetch --tags
           BRANCH_NAME="${{ github.head_ref }}"
           VERSION=$(git tag --sort=-v:refname | head -n 1 | sed 's/v//')
 
+          echo "branch: $BRANCH_NAME, version: $VERSION"
+          
           if [[ -z "$VERSION" ]]; then
-            VERSION="0.1.0"
+            VERSION="0.0.0"
           fi
 
           MAJOR=$(echo "$VERSION" | cut -d. -f1)
