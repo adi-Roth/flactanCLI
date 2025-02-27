@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   validate-branch:
     runs-on: ubuntu-latest
@@ -50,17 +53,21 @@ jobs:
           git config --global user.email "github-actions@github.com"
 
       - name: Determine version type and create tag
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
           VERSION=$(git tag --sort=-v:refname | head -n 1 | sed 's/v//')
+
+          if [[ -z "$VERSION" ]]; then
+            VERSION="0.1.0"
+          fi
 
           MAJOR=$(echo "$VERSION" | cut -d. -f1)
           MINOR=$(echo "$VERSION" | cut -d. -f2)
           PATCH=$(echo "$VERSION" | cut -d. -f3)
 
-          if [[ "$VERSION" == "" ]]; then
-            VERSION="0.1.0"
-          elif [[ "$BRANCH_NAME" =~ ^feature/ ]]; then
+          if [[ "$BRANCH_NAME" =~ ^feature/ ]]; then
             MINOR=$((MINOR + 1))
             PATCH=0
           elif [[ "$BRANCH_NAME" =~ ^fix/ ]]; then
@@ -71,4 +78,4 @@ jobs:
           echo "New version: $NEW_VERSION"
 
           git tag $NEW_VERSION
-          git push origin $NEW_VERSION
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git $NEW_VERSION
