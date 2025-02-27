@@ -18,6 +18,7 @@ jobs:
           if [[ ! "$BRANCH_NAME" =~ ^(fix|feature)/ ]]; then
             echo "❌ Only 'fix/*' or 'feature/*' branches are allowed!"
             exit 1
+          fi
 
   lint-and-test:
     runs-on: ubuntu-latest
