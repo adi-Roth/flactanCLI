@@ -1,0 +1,49 @@
+name: "[Feature] New CLI Feature"
+description: "Define a new CLI feature or enhancement"
+title: "[Feature] <Feature Title>"
+labels: ["Feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🚀 Feature Description
+        _Provide a clear and concise description of this feature._
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: "👤 User Story"
+      description: "Describe the need for this feature."
+      placeholder: "As a user, I want to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: "📋 Development Tasks"
+      description: "List the tasks required to implement this feature."
+      placeholder: |
+        - [ ] Task 1
+        - [ ] Task 2
+        - [ ] Task 3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "🔥 Priority"
+      options:
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: "🔗 Related Issues / PRs"
+      description: "Link related Epics, Issues, or PRs."
+      placeholder: "#Epic-123, #PR-456"
