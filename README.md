@@ -26,7 +26,7 @@ FlactanCLI is a **next-generation command-line tool** designed to **automate, co
 
 ## 📦 Installation
 
-Coming soon... (Stay tuned for the first release!)
+Coming soon.. (Stay tuned for the first release!)
 
 ## 🚀 Quick Start
 
