@@ -30,8 +30,9 @@ jobs:
         id: get_pr_body
         run: |
           # Fetch PR body and sanitize it
-          PR_BODY=$(echo "${{ github.event.pull_request.body }}" | tr -d '\r' | sed 's/^-\s*//')
-          echo "PR_BODY=$PR_BODY" >> $GITHUB_ENV
+          echo "PR_BODY<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.pull_request.body }}" | tr -d '\r' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Build and Upload Artifacts
         run: |
