@@ -26,9 +26,12 @@ jobs:
       - name: Verify Tag
         run: echo "Latest tag is ${{ env.TAG }}"
 
-      - name: Extract PR Description
+      - name: Extract PR Description and Sanitize
         id: get_pr_body
-        run: echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
+        run: |
+          # Fetch PR body and sanitize it
+          PR_BODY=$(echo "${{ github.event.pull_request.body }}" | tr -d '\r' | sed 's/^-\s*//')
+          echo "PR_BODY=$PR_BODY" >> $GITHUB_ENV
 
       - name: Build and Upload Artifacts
         run: |
