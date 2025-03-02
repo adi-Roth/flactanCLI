@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
+// RootCmd represents the base command when called without any subcommands
+var RootCmd = &cobra.Command{
 	Use:   "flactancli",
 	Short: "FlactanCLI - Automate workstation setup with ease",
 	Long: `FlactanCLI is a cross-platform command-line tool designed to automate
@@ -23,13 +23,21 @@ setup, and system configurations.`,
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This function is called by main.go.
 func Execute() {
-	err := rootCmd.Execute()
+	err := RootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
 	}
 }
 
+// Override completionCmd to prevent it from appearing
+var completionCmd = &cobra.Command{
+	Use:    "completion",
+	Hidden: true, // Hides the command from --help
+	Run: func(cmd *cobra.Command, args []string) {
+		// Do nothing to effectively disable it
+	},
+}
+
 func init() {
-	// Here you can define global flags, if needed
-	rootCmd.PersistentFlags().StringP("config", "c", "", "Path to configuration file")
+	RootCmd.AddCommand(completionCmd)
 }
