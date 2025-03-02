@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 // MockFileSystem simulates file system operations for testing
@@ -35,4 +37,31 @@ func (fs *MockFileSystem) ReadFile(filename string) ([]byte, error) {
 	}
 	fmt.Println("[MOCK] File not found:", filename)
 	return nil, &os.PathError{Op: "open", Path: filename, Err: errors.New("no such file or directory")}
+}
+
+// FileExists simulates checking if a file exists
+func (fs *MockFileSystem) FileExists(filename string) bool {
+	_, exists := fs.Files[filename]
+	fmt.Printf("[MOCK] Checking if file exists: %s -> %v\n", filename, exists)
+	return exists
+}
+
+// ValidateYAML simulates checking if a file contains valid YAML content
+func (fs *MockFileSystem) ValidateYAML(filename string) bool {
+	data, exists := fs.Files[filename]
+	if !exists {
+		fmt.Printf("[MOCK] YAML validation failed (file not found): %s ❌\n", filename)
+		return false
+	}
+
+	// Try parsing YAML (simulating behavior of `utils.ValidateYAML`)
+	var parsedData map[string]interface{}
+	err := yaml.Unmarshal(data, &parsedData)
+	if err != nil {
+		fmt.Printf("[MOCK] YAML validation failed (invalid format): %s ❌\n", filename)
+		return false
+	}
+
+	fmt.Printf("[MOCK] YAML validation passed: %s ✅\n", filename)
+	return true
 }

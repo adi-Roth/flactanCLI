@@ -14,6 +14,7 @@ import (
 // Config structure for storing system information
 type Config struct {
 	OSName    string `yaml:"os-name"`
+	OSArch    string `yaml:"os-arch"`
 	OSVersion string `yaml:"os-version"`
 	Internet  string `yaml:"internet"`
 	ToolsPath string `yaml:"tools-path"`
@@ -44,7 +45,7 @@ func InitializeConfig(fs utils.FileSystem, customDir string) {
 	}
 
 	// Get system information
-	osName, osVersion := system.GetOSInfo()
+	osName, osArch, osVersion := system.GetOSInfo()
 	isConnected := system.CheckInternet()
 	internetStatus := "offline"
 	if isConnected {
@@ -54,6 +55,7 @@ func InitializeConfig(fs utils.FileSystem, customDir string) {
 	// Create config file
 	config := Config{
 		OSName:    osName,
+		OSArch:    osArch,
 		OSVersion: osVersion,
 		Internet:  internetStatus,
 		ToolsPath: toolsPath,
@@ -92,5 +94,5 @@ var initCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(initCmd)
+	RootCmd.AddCommand(initCmd)
 }
