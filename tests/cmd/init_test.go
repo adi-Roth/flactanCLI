@@ -13,6 +13,7 @@ import (
 // Config structure matching the one in init.go
 type Config struct {
 	OSName    string `yaml:"os-name"`
+	OSArch    string `yaml:"os-arch"`
 	OSVersion string `yaml:"os-version"`
 	Internet  string `yaml:"internet"`
 	ToolsPath string `yaml:"tools-path"`
@@ -45,9 +46,12 @@ func TestInitCommand(t *testing.T) {
 	}
 
 	// Verify OS information
-	expectedOS, expectedVersion := system.GetOSInfo()
+	expectedOS, expectedArch, expectedVersion := system.GetOSInfo()
 	if config.OSName != expectedOS {
 		t.Errorf("Expected OSName to be %s, got %s", expectedOS, config.OSName)
+	}
+	if config.OSArch != expectedArch {
+		t.Errorf("Expected OSArch to be %s, got %s", expectedOS, config.OSName)
 	}
 	if config.OSVersion != expectedVersion {
 		t.Errorf("Expected OSVersion to be %s, got %s", expectedVersion, config.OSVersion)

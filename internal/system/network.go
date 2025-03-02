@@ -1,15 +1,17 @@
 package system
 
 import (
-	"net/http"
+	"net"
 	"time"
 )
 
 // CheckInternet verifies if the system has internet access
 func CheckInternet() bool {
-	client := http.Client{
-		Timeout: 2 * time.Second,
+	timeout := 2 * time.Second
+	conn, err := net.DialTimeout("tcp", "1.1.1.1:80", timeout)
+	if err != nil {
+		return false
 	}
-	_, err := client.Get("https://www.google.com")
-	return err == nil
+	_ = conn.Close()
+	return true
 }
