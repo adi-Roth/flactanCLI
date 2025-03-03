@@ -33,17 +33,23 @@ jobs:
           echo "PR_BODY<<EOF" >> $GITHUB_ENV
           echo "${{ github.event.pull_request.body }}" | tr -d '\r' >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-
+      
+      - name: Get Windows Dependencies
+        run: |
+          GOOS=windows go get -d ./...
+          go mod tidy
+      
       - name: Build and Upload Artifacts
         run: |
           make build-linux
+          make build-mac
           make build-windows
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: flactanCLI-artifacts
-          path: bin/*
+          path: bin/*.zip
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

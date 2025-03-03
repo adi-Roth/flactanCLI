@@ -5,6 +5,7 @@ go 1.24.0
 require (
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
+	golang.org/x/sys v0.30.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 

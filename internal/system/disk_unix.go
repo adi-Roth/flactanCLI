@@ -1,10 +1,12 @@
+//go:build !windows
+
 package system
 
 import (
 	"syscall"
 )
 
-// CheckDiskSpace verifies if the system has at least `requiredGB` of free disk space
+// CheckDiskSpace verifies if the system has at least `requiredGB` of free disk space.
 func CheckDiskSpace(requiredGB uint64) bool {
 	var stat syscall.Statfs_t
 	err := syscall.Statfs("/", &stat)
