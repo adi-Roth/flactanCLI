@@ -5,20 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/adi-Roth/flactanCLI/internal/config"
 	"github.com/adi-Roth/flactanCLI/internal/system"
 	"github.com/adi-Roth/flactanCLI/internal/utils"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
-
-// Config structure for storing system information
-type Config struct {
-	OSName    string `yaml:"os-name"`
-	OSArch    string `yaml:"os-arch"`
-	OSVersion string `yaml:"os-version"`
-	Internet  string `yaml:"internet"`
-	ToolsPath string `yaml:"tools-path"`
-}
 
 // InitializeConfig now takes a FileSystem interface (for mocking in tests)
 func InitializeConfig(fs utils.FileSystem, customDir string) {
@@ -53,7 +45,7 @@ func InitializeConfig(fs utils.FileSystem, customDir string) {
 	}
 
 	// Create config file
-	config := Config{
+	config := config.Config{
 		OSName:    osName,
 		OSArch:    osArch,
 		OSVersion: osVersion,
