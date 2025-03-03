@@ -34,6 +34,11 @@ jobs:
           echo "${{ github.event.pull_request.body }}" | tr -d '\r' >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
       - name: Get Windows Dependencies
         run: |
           GOOS=windows go get -d ./...
