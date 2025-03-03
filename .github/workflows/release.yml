@@ -62,6 +62,6 @@ jobs:
           tag_name: ${{ env.TAG }}
           name: "Release ${{ env.TAG }}"
           body: "🚀 New Release: ${{ env.TAG }}\n\nChanges:\n${{ env.PR_BODY }}"
-          files: bin/*
+          files: bin/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
