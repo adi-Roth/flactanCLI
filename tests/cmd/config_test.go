@@ -33,7 +33,10 @@ func TestInitCommand(t *testing.T) {
 	fmt.Println("Expected config.yaml path:", expectedConfigPath)
 
 	// Run init function with mock filesystem and test directory
-	cmd.RunConfigInit(mockFS, tempDir)
+	err = cmd.RunConfigInit(mockFS, tempDir)
+	if err != nil {
+		t.Fatalf("Failed to run config init: %v", err)
+	}
 
 	// Check if config.yaml exists
 	configData, err := mockFS.ReadFile(expectedConfigPath)

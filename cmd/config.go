@@ -152,7 +152,10 @@ var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initialize FlactanCLI and create configuration files",
 	Run: func(cmd *cobra.Command, args []string) {
-		RunConfigInit(utils.OSFileSystem{}, "") // Use real filesystem in production
+		err := RunConfigInit(utils.OSFileSystem{}, "") // Use real filesystem in production
+		if err != nil {
+			fmt.Println("Error initializing configuration:", err)
+		}
 	},
 }
 
