@@ -22,7 +22,7 @@ func TestValidateCommand(t *testing.T) {
 	defer os.RemoveAll(tempDir) // Clean up after test
 
 	// Use InitializeConfig to create actual files in tempDir
-	cmd.InitializeConfig(fs, tempDir)
+	cmd.RunConfigInit(fs, tempDir)
 
 	fmt.Println("[TEST] Running validation with tempDir:", tempDir)
 
