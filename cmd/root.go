@@ -7,6 +7,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Variable to override os.Exit() in tests
+var ExitFunc = os.Exit
+
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "flactancli",
@@ -25,7 +28,7 @@ setup, and system configurations.`,
 func Execute() {
 	err := RootCmd.Execute()
 	if err != nil {
-		os.Exit(1)
+		ExitFunc(1) // This will call os.Exit(1) unless overridden in tests
 	}
 }
 
