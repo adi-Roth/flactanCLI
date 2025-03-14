@@ -7,7 +7,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/adi-Roth/flactanCLI/cmd"
 	"github.com/adi-Roth/flactanCLI/internal/config"
 	"github.com/adi-Roth/flactanCLI/internal/system"
 	"github.com/adi-Roth/flactanCLI/tests/mocks"
@@ -33,7 +32,7 @@ func TestInitCommand(t *testing.T) {
 	fmt.Println("Expected config.yaml path:", expectedConfigPath)
 
 	// Run init function with mock filesystem and test directory
-	err = cmd.RunConfigInit(mockFS, tempDir)
+	err = config.InitializeConfig(mockFS, tempDir)
 	if err != nil {
 		t.Fatalf("Failed to run config init: %v", err)
 	}
@@ -84,7 +83,7 @@ func TestInitCommand_ErrorCases(t *testing.T) {
 	fmt.Println("🔍 Testing directory creation failure...")
 	mockFS.SetMkdirAllError(fmt.Errorf("failed to create directory"))
 
-	err = cmd.RunConfigInit(mockFS, tempDir) // ✅ Directly capture returned error
+	err = config.InitializeConfig(mockFS, tempDir) // ✅ Directly capture returned error
 	if err == nil {
 		t.Errorf("❌ Expected error when creating directory, but got nil")
 	} else {
@@ -99,7 +98,7 @@ func TestInitCommand_ErrorCases(t *testing.T) {
 	mockFS.ResetErrors()
 	mockFS.SetWriteFileError(tempDir+"/config.yaml", fmt.Errorf("failed to write config file"))
 
-	err = cmd.RunConfigInit(mockFS, tempDir)
+	err = config.InitializeConfig(mockFS, tempDir)
 	if err == nil {
 		t.Errorf("❌ Expected config file write error, but got nil")
 	} else {
@@ -114,7 +113,7 @@ func TestInitCommand_ErrorCases(t *testing.T) {
 	mockFS.ResetErrors()
 	mockFS.SetWriteFileError(tempDir+"/tools.yaml", fmt.Errorf("failed to write tools file"))
 
-	err = cmd.RunConfigInit(mockFS, tempDir)
+	err = config.InitializeConfig(mockFS, tempDir)
 	if err == nil {
 		t.Errorf("❌ Expected tools file write error, but got nil")
 	} else {
@@ -129,7 +128,7 @@ func TestInitCommand_ErrorCases(t *testing.T) {
 	mockFS.ResetErrors()
 	mockFS.SetReadFileError(tempDir+"/tools.yaml", fmt.Errorf("failed to read tools file"))
 
-	err = cmd.RunConfigInit(mockFS, tempDir)
+	err = config.InitializeConfig(mockFS, tempDir)
 	if err != nil {
 		t.Errorf("❌ Unexpected error when reading tools file: %v", err)
 	} else {
