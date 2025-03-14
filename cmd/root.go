@@ -2,45 +2,54 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
+	"github.com/adi-Roth/flactanCLI/internal/utils"
 	"github.com/spf13/cobra"
 )
 
-// Variable to override os.Exit() in tests
-var ExitFunc = os.Exit
+// Global variables
+var logLevel string // CLI flag for log level
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "flactancli",
 	Short: "FlactanCLI - Automate workstation setup with ease",
-	Long: `FlactanCLI is a cross-platform command-line tool designed to automate
+	Long: `
+FlactanCLI is a cross-platform command-line tool designed to automate
 the setup and configuration of development workstations in both online 
 and offline environments. It simplifies software installation, network 
 setup, and system configurations.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		utils.InitLogger(logLevel) // Initialize logger before anything runs
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Welcome to FlactanCLI! Use --help to see available commands.")
+		fmt.Println(`
+Welcome to FlactanCLI!
+----------------------
+Run 'flactancli --help' for more information.
+		`)
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This function is called by main.go.
+// Execute runs the root command
 func Execute() {
-	err := RootCmd.Execute()
-	if err != nil {
-		ExitFunc(1) // This will call os.Exit(1) unless overridden in tests
+	if err := RootCmd.Execute(); err != nil {
+		utils.Logger.Debug("Cobra error: ", err) // Keep it for debugging but not for users
+		utils.ExitHandler(1, nil)                // Exit without re-logging the error
 	}
 }
 
-// Override completionCmd to prevent it from appearing
+// Override the default completion command
 var completionCmd = &cobra.Command{
 	Use:    "completion",
-	Hidden: true, // Hides the command from --help
+	Hidden: true,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do nothing to effectively disable it
+		// Disable the default completion command
 	},
 }
 
+// Init function for RootCmd
 func init() {
 	RootCmd.AddCommand(completionCmd)
+	RootCmd.PersistentFlags().StringVar(&logLevel, "log-level", "info", "Set the log level (debug, info, warn, error)")
 }

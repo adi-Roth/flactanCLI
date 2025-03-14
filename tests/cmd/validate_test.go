@@ -1,13 +1,14 @@
 package cmd_test
 
 import (
+	"bytes"
 	"fmt"
-	"io"
 	"os"
 	"testing"
 
-	"github.com/adi-Roth/flactanCLI/cmd"
+	"github.com/adi-Roth/flactanCLI/internal/config"
 	"github.com/adi-Roth/flactanCLI/internal/utils"
+	"github.com/adi-Roth/flactanCLI/internal/validation"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,31 +23,28 @@ func TestValidateCommand(t *testing.T) {
 	defer os.RemoveAll(tempDir) // Clean up after test
 
 	// Use InitializeConfig to create actual files in tempDir
-	err = cmd.RunConfigInit(fs, tempDir)
+	err = config.InitializeConfig(fs, tempDir)
 	if err != nil {
 		t.Fatalf("Failed to run config init: %v", err)
 	}
 
 	fmt.Println("[TEST] Running validation with tempDir:", tempDir)
 
-	// Redirect stdout to capture output
-	oldStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
+	// 🔍 Capture logs instead of stdout
+	var logBuffer bytes.Buffer
+	utils.Logger.SetOutput(&logBuffer) // Redirect logrus output to buffer
+	defer func() {
+		utils.Logger.SetOutput(os.Stderr) // Restore normal logging after test
+	}()
 
-	// Run validation on the real file system
-	cmd.RunValidation(tempDir)
+	// Run validation
+	validation.RunValidation(tempDir)
 
-	// Restore stdout
-	w.Close()
-	os.Stdout = oldStdout
-	capturedOutput, _ := io.ReadAll(r)
-
-	// Convert output to a string
-	output := string(capturedOutput)
-	fmt.Println("Captured Output:\n", output)
+	// Read captured logs
+	logOutput := logBuffer.String()
+	fmt.Println("Captured Logs:\n", logOutput)
 
 	// Assertions
-	assert.Contains(t, output, "✔ config.yaml is valid ✅", "Expected validation output missing")
-	assert.Contains(t, output, "✔ tools.yaml is valid ✅", "Expected validation output missing")
+	assert.Contains(t, logOutput, "✔ config.yaml is valid ✅", "Expected validation output missing")
+	assert.Contains(t, logOutput, "✔ tools.yaml is valid ✅", "Expected validation output missing")
 }
